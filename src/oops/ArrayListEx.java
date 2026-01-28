@@ -8,6 +8,7 @@ public class ArrayListEx {
         myNumbers.add(10);
         myNumbers.add(11);
         myNumbers.add(8);
+        System.out.println(myNumbers);
         Collections.sort(myNumbers);
         for(int i : myNumbers){
             System.out.println(i);
