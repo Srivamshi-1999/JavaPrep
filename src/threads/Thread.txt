@@ -1,0 +1,152 @@
+### What is a Thread?
+
+A **thread** in Java is a lightweight subprocess, the smallest unit of processing. It is a part of a process and runs within the context of that process. Threads allow a program to perform multiple tasks simultaneously, enabling better utilization of CPU resources and improving application performance.
+
+### How to Create a Thread in Java
+There are two main ways to create a thread in Java:
+
+1. **By Extending the `Thread` Class**:
+   - Create a class that extends the `Thread` class.
+   - Override the `run()` method to define the task that the thread will execute.
+   - Create an instance of the class and call the `start()` method to begin execution.
+
+   Example:
+   ```java
+   class MyThread extends Thread {
+       public void run() {
+           System.out.println("Thread is running");
+       }
+   }
+
+   public class ThreadExample {
+       public static void main(String[] args) {
+           MyThread t1 = new MyThread();
+           t1.start(); // Start the thread
+       }
+   }
+   ```
+
+2. **By Implementing the `Runnable` Interface**:
+   - Create a class that implements the `Runnable` interface.
+   - Implement the `run()` method to define the task.
+   - Create an instance of the `Runnable` class and pass it to a `Thread` object.
+   - Call the `start()` method on the `Thread` object to begin execution.
+
+   Example:
+   ```java
+   class MyRunnable implements Runnable {
+       public void run() {
+           System.out.println("Thread is running");
+       }
+   }
+
+   public class ThreadExample {
+       public static void main(String[] args) {
+           Thread t1 = new Thread(new MyRunnable());
+           t1.start(); // Start the thread
+       }
+   }
+   ```
+
+### Key Points:
+- A thread is an independent path of execution within a program.
+- Threads share the same memory space, which allows them to communicate and share data easily.
+- The `start()` method is used to begin a thread's execution, which internally calls the `run()` method.
+- Threads can be used to perform tasks like handling multiple user requests, background processing, or parallel computations.
+
+### Advantages of Threads:
+- **Concurrency**: Threads allow multiple tasks to run concurrently, improving performance.
+- **Resource Sharing**: Threads share the same memory and resources of the process, making communication between threads efficient.
+- **Responsiveness**: Threads can improve the responsiveness of an application by performing background tasks without blocking the main thread.
+
+### Disadvantages of Threads:
+- **Complexity**: Managing multiple threads can be complex and error-prone.
+- **Synchronization Issues**: Improper synchronization can lead to race conditions, deadlocks, and other concurrency issues.
+- **Overhead**: Creating and managing threads requires system resources, which can impact performance if not managed properly.
+
+### Thread Lifecycle Explanation
+
+A thread in Java goes through several states during its lifecycle. Below is a detailed explanation of each state and the methods involved:
+
+1. **New State**:
+   - A thread is in the "new" state when it is created but not yet started.
+   - This happens when you create a `Thread` object using `new Thread()` or by passing a `Runnable` object to the `Thread` constructor.
+   - Example:
+     ```java
+     Thread t = new Thread();
+     ```
+
+2. **Runnable State**:
+   - When the `start()` method is called on a thread, it moves to the "runnable" state.
+   - In this state, the thread is ready to run but is waiting for the CPU to schedule its execution.
+   - Example:
+     ```java
+     t.start();
+     ```
+
+3. **Running State**:
+   - When the thread scheduler picks a thread from the runnable pool, the thread enters the "running" state.
+   - The `run()` method of the thread is executed in this state.
+   - Example:
+     ```java
+     public void run() {
+         System.out.println("Thread is running");
+     }
+     ```
+
+4. **Blocked/Waiting/Timed Waiting State**:
+   - A thread enters the "blocked" state when it is waiting for a resource to become available or for another thread to complete its task.
+   - A thread enters the "waiting" state when it is waiting indefinitely for another thread to signal it.
+   - A thread enters the "timed waiting" state when it is waiting for a specified amount of time.
+   - Methods that cause these states include:
+     - `wait()` (waiting)
+     - `sleep()` (timed waiting)
+     - `join()` (waiting or timed waiting, depending on the overload used)
+
+5. **Terminated State**:
+   - A thread enters the "terminated" state when it has finished executing its `run()` method or has been explicitly stopped.
+   - Once a thread is terminated, it cannot be restarted.
+   - Example:
+     ```java
+     t.join(); // Waits for the thread to finish
+     System.out.println("Thread has terminated");
+     ```
+
+### Key Methods in Thread Lifecycle
+- `start()`: Starts the thread and moves it to the runnable state.
+- `run()`: Contains the code to be executed by the thread.
+- `sleep(milliseconds)`: Puts the thread into a timed waiting state.
+- `join()`: Waits for the thread to finish execution.
+- `wait()`: Causes the thread to wait until another thread invokes `notify()` or `notifyAll()`.
+- `notify()`: Wakes up a single thread that is waiting on the object's monitor.
+- `notifyAll()`: Wakes up all threads that are waiting on the object's monitor.
+
+### Example of Thread Lifecycle
+```java
+class MyThread extends Thread {
+    public void run() {
+        System.out.println(Thread.currentThread().getName() + " is running");
+        try {
+            Thread.sleep(1000); // Timed waiting state
+        } catch (InterruptedException e) {
+            System.out.println("Thread interrupted");
+        }
+        System.out.println(Thread.currentThread().getName() + " has finished");
+    }
+}
+
+public class ThreadLifecycleExample {
+    public static void main(String[] args) throws InterruptedException {
+        Thread t1 = new MyThread();
+        System.out.println("Thread state: " + t1.getState()); // NEW
+
+        t1.start();
+        System.out.println("Thread state: " + t1.getState()); // RUNNABLE
+
+        t1.join(); // Wait for thread to finish
+        System.out.println("Thread state: " + t1.getState()); // TERMINATED
+    }
+}
+```
+
+This example demonstrates the transition of a thread through its lifecycle states.
