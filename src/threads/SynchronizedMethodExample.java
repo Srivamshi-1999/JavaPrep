@@ -18,13 +18,20 @@
  * - With `N` threads each doing 1000 increments, final count should be `N * 1000`.
  */
 
-package oops;
+package threads;
 class Counter {
     private int count = 0;
     //synchronized method to increment the count and ensure thread safety
     public synchronized void increment() {
         count++;
     }
+    //above method is also can be written as below without synchronized(lock) block which is more concise and easier to read
+    // private final Object lock = new Object();
+    // public void increment() {
+    //     synchronized (lock) { //synchronized block to ensure thread safety
+    //         count++;
+    //     }
+    // }
     public synchronized int getCount() {
         return count;
     }

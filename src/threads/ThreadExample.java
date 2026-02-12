@@ -1,4 +1,4 @@
-package oops;
+package threads;;
 
  class Mythread extends Thread {
     @Override

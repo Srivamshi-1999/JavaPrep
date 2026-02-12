@@ -1,4 +1,4 @@
-package oops;
+package threads;
 
 public class ThreadsExRunnable implements Runnable {
     public void run(){

@@ -1,3 +1,7 @@
 .vscode/settings.json
 bin/
 .gitignore
+src/oops/Counter.class
+src/oops/CounterLock.class
+src/oops/ExplicitLocks.class
+src/oops/SynchronizedMethodExample.class
